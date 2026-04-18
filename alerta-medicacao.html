@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Alerta Medicação</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{--bg:#f7f6f2;--surface:#fbfbf9;--surface2:#f3f0ec;--text:#28251d;--muted:#7a7974;--border:#d4d1ca;--primary:#01696f;--primary2:#0c4e54;--success:#437a22;--warning:#964219;--shadow:0 12px 32px rgba(40,37,29,.08);--r:18px;--r2:12px}
+[data-theme="dark"]{--bg:#171614;--surface:#1c1b19;--surface2:#22211f;--text:#cdccca;--muted:#797876;--border:#393836;--primary:#4f98a3;--primary2:#227f8b;--success:#6daa45;--warning:#bb653b;--shadow:0 12px 32px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{margin:0}body{font-family:Satoshi,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}a,button,input,select{font:inherit}button{cursor:pointer;border:0} .wrap{max-width:1180px;margin:0 auto;padding:20px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px} .brand{display:flex;align-items:center;gap:12px} .mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary2));box-shadow:var(--shadow)} .title h1{font-size:clamp(1.4rem,2vw,2rem);margin:0} .title p{margin:.15rem 0 0;color:var(--muted);font-size:.95rem} .toolbar{display:flex;gap:10px;align-items:center} .btn{padding:12px 14px;border-radius:14px;background:var(--surface);color:var(--text);border:1px solid var(--border)} .btn.primary{background:var(--primary);color:#fff} main{display:grid;grid-template-columns:1.1fr .9fr;gap:18px} .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:18px} .grid{display:grid;gap:14px} .row{display:grid;grid-template-columns:1fr 1fr;gap:12px} label{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px} input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text)} textarea{min-height:92px;resize:vertical} .section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px} .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:color-mix(in srgb,var(--primary) 12%, transparent);color:var(--primary);font-size:.8rem} .table{display:grid;gap:10px} .item{display:grid;grid-template-columns:1.2fr .7fr .7fr .6fr;gap:10px;align-items:center;padding:14px;border-radius:14px;background:var(--surface2);border:1px solid var(--border)} .muted{color:var(--muted)} .status{font-weight:700} .ok{color:var(--success)} .warn{color:var(--warning)} .small{font-size:.85rem} .timeline{display:grid;gap:10px} .event{padding:14px;border-radius:14px;background:var(--surface2);border:1px solid var(--border)} .topline{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:6px} .dots{display:flex;gap:8px} .dot{width:10px;height:10px;border-radius:999px;background:var(--primary)} .dot.s{background:var(--success)} .dot.w{background:var(--warning)} .toggle{display:flex;align-items:center;gap:8px} .toggle button{width:56px;height:34px;border-radius:999px;position:relative;background:var(--surface2);border:1px solid var(--border)} .toggle button::after{content:'';position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:var(--primary);transition:transform .2s ease} [data-theme="dark"] .toggle button::after{transform:translateX(22px)} @media (max-width:900px){main{grid-template-columns:1fr}.row,.item{grid-template-columns:1fr}.wrap{padding:14px}} </style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand"><div class="mark"></div><div class="title"><h1>Alerta de Medicação</h1><p>Protótipo navegável para WhatsApp, SMS e áudio acessível.</p></div></div>
+  <div class="toolbar">
+    <div class="toggle"><span class="small muted">Tema</span><button id="themeBtn" aria-label="Alternar tema"></button></div>
+    <button class="btn">Exportar</button>
+    <button class="btn primary" id="openPreset" type="button">Novo alerta</button>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <div class="section-title"><div><strong>Cadastrar paciente</strong><div class="small muted">Qualquer pessoa pode adicionar alertas</div></div><span class="pill">MVP</span></div>
+    <div class="grid">
+      <div class="row">
+        <div><label>Nome do paciente</label><input placeholder="Ex.: Maria Silva"></div>
+        <div><label>Responsável</label><input placeholder="Ex.: João / cuidador"></div>
+      </div>
+      <div class="row">
+        <div><label>Telefone / WhatsApp</label><input placeholder="(83) 99999-9999"></div>
+        <div><label>Preferência de envio</label><select><option>WhatsApp + SMS + áudio</option><option>WhatsApp</option><option>SMS</option><option>Áudio</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Medicamento</label><input placeholder="Ex.: Losartana 50mg"></div>
+        <div><label>Frequência</label><select><option>1x ao dia</option><option>2x ao dia</option><option>3x ao dia</option><option>A cada 8 horas</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Horários</label><input id="timesInput" placeholder="07:00, 13:00, 19:00" inputmode="numeric" autocomplete="off"></div>
+        <div><label>Mensagem de áudio</label><select><option>Voz feminina suave</option><option>Voz masculina clara</option></select></div>
+      </div>
+      <div><label>Observações</label><textarea placeholder="Ex.: paciente não lê bem; usar linguagem simples e pausada."></textarea></div>
+      <div class="row">
+        <button class="btn primary" id="saveBtn" type="button">Salvar lembrete</button>
+        <button class="btn" id="testBtn" type="button">Testar notificação</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="section-title"><strong>Próximos alertas</strong><span class="pill">3 ativos</span></div>
+      <div class="table">
+        <div class="item"><div><strong>Maria Silva</strong><div class="small muted">Losartana 50mg</div></div><div><div class="status ok">WhatsApp</div><div class="small muted">07:00</div></div><div><div class="status ok">SMS</div><div class="small muted">07:05</div></div><div><div class="status warn">Áudio</div><div class="small muted">07:00</div></div></div>
+        <div class="item"><div><strong>Antônio Souza</strong><div class="small muted">Metformina 850mg</div></div><div><div class="status ok">WhatsApp</div><div class="small muted">13:00</div></div><div><div class="status ok">SMS</div><div class="small muted">13:05</div></div><div><div class="status warn">Áudio</div><div class="small muted">13:00</div></div></div>
+        <div class="item"><div><strong>Ana Lima</strong><div class="small muted">Atenolol 25mg</div></div><div><div class="status ok">WhatsApp</div><div class="small muted">19:00</div></div><div><div class="status ok">SMS</div><div class="small muted">19:05</div></div><div><div class="status warn">Áudio</div><div class="small muted">19:00</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title"><strong>Simulação de envio</strong><span class="pill">Teste real</span></div>
+      <div class="timeline">
+        <div class="event"><div class="topline"><strong>WhatsApp enviado</strong><span class="small muted">agora</span></div><div class="small muted">Bom dia, Maria. Está na hora do seu medicamento Losartana 50mg.</div></div>
+        <div class="event"><div class="topline"><strong>SMS enviado</strong><span class="small muted">+5 min</span></div><div class="small muted">Alerta: tomar Losartana 50mg às 07:00.</div></div>
+        <div class="event"><div class="topline"><strong>Áudio gerado</strong><span class="small muted">PT-BR</span></div><div class="small muted">Mensagem falada para acessibilidade e baixa alfabetização.</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+<script>
+const root=document.documentElement, btn=document.getElementById('themeBtn'); let theme='light';
+function setTheme(t){theme=t;root.setAttribute('data-theme',t)}
+btn.addEventListener('click',()=>setTheme(theme==='light'?'dark':'light')); setTheme('light');
+
+<script>
+const root=document.documentElement, btn=document.getElementById('themeBtn'); let theme='light';
+function setTheme(t){theme=t;root.setAttribute('data-theme',t)}
+btn.addEventListener('click',()=>setTheme(theme==='light'?'dark':'light')); setTheme('light');
+
+const saveBtn = document.getElementById('saveBtn');
+const testBtn = document.getElementById('testBtn');
+const openPreset = document.getElementById('openPreset');
+const toast = document.createElement('div');
+toast.style.cssText='position:fixed;right:16px;bottom:16px;max-width:320px;padding:14px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);display:none;z-index:99';
+document.body.appendChild(toast);
+function showToast(msg){toast.textContent=msg;toast.style.display='block';clearTimeout(window.__t);window.__t=setTimeout(()=>toast.style.display='none',2600)}
+['click','keydown'].forEach(ev=>[saveBtn,testBtn,openPreset].forEach(b=>b&&b.addEventListener(ev,e=>{if(ev==='keydown'&&(e.key!=='Enter'&&e.key!==' '))return;})))
+
+const data = [
+  {name:'Maria Silva', drug:'Losartana 50mg', phone:'(83) 99999-1111', freq:'1x ao dia', times:'07:00', pref:'WhatsApp + SMS + áudio'},
+  {name:'Antônio Souza', drug:'Metformina 850mg', phone:'(83) 98888-2222', freq:'2x ao dia', times:'07:00, 19:00', pref:'WhatsApp + SMS + áudio'},
+  {name:'Ana Lima', drug:'Atenolol 25mg', phone:'(83) 97777-3333', freq:'1x ao dia', times:'19:00', pref:'WhatsApp + áudio'}
+];
+
+const fields = [...document.querySelectorAll('input, select, textarea')];
+fields[0].value='Maria Silva'; fields[1].value='João / cuidador'; fields[2].value='(83) 99999-1111'; fields[4].value='Losartana 50mg'; fields[6].value='07:00, 19:00'; fields[9].value='Paciente idoso, usar linguagem simples e voz pausada.';
+
+const timesInput = document.getElementById('timesInput');
+function formatHourToken(token){
+  const digits = (token || '').replace(/\D/g,'').slice(0,4);
+  if (!digits) return '';
+  if (digits.length <= 2) return digits;
+  const hh = digits.slice(0,2).padStart(2,'0');
+  const mm = digits.slice(2).padEnd(2,'0');
+  return `${hh}:${mm}`;
+}
+function formatTimes(value){
+  return value.split(',').map(s=>formatHourToken(s.trim())).filter(Boolean).join(', ');
+}
+timesInput.addEventListener('blur',()=>{ timesInput.value = formatTimes(timesInput.value); renderPreview(); });
+timesInput.addEventListener('input',()=>{ renderPreview(); });
+
+
+const rows = document.querySelectorAll('.item');
+const cards = Array.from(rows);
+function renderPreview(){
+  const name = fields[0].value || 'Novo paciente';
+  const drug = fields[4].value || 'Medicamento';
+  const times = formatTimes(fields[6].value || '');
+  const pref = fields[3].value || 'WhatsApp + SMS + áudio';
+  cards[0].querySelector('strong').textContent=name;
+  cards[0].querySelector('.muted').textContent=drug;
+  cards[0].children[1].querySelector('.small').textContent=(times.split(',')[0]?.trim() || '07:00');
+  cards[0].children[2].querySelector('.small').textContent=(times.split(',')[1]||'07:05').trim();
+  cards[0].children[3].querySelector('.small').textContent=(times.split(',')[0]?.trim() || '07:00');
+}
+fields.forEach(f=>f.addEventListener('input',renderPreview));
+renderPreview();
+
+saveBtn.addEventListener('click',()=>showToast('Lembrete salvo localmente no protótipo.'));
+testBtn.addEventListener('click',()=>showToast('Teste de notificação: WhatsApp + SMS + áudio simulados.'));
+openPreset.addEventListener('click',()=>showToast('Modo novo alerta pronto para preenchimento.'));
+</script>
+
+</body>
+</html>
